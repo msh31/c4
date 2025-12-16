@@ -9,7 +9,7 @@ typedef enum {
     SEMICOLON,
     LEFT_PAREN,
     RIGHT_PAREN,
-    PRINT
+    PRINT,
 } TokenType;
 
 typedef struct {

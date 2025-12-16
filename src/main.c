@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "lexer.h"
+
 int main(int argc, char* argv[]) {
     // printf("hello world!");
 
@@ -23,7 +25,20 @@ int main(int argc, char* argv[]) {
     fread(buffer, 1, filesize, file);
     buffer[filesize] = '\0';
 
-    printf("%s\n", buffer);
+    int token_count;
+    Token *tokens = tokenize(buffer, &token_count);
+
+    if (tokens == NULL || token_count == 0) {
+        printf("womp womp\n");
+    } else {
+        printf("Found %d tokens\n", token_count);
+
+        for (int i = 0; i < token_count; i++) {
+            printf("type: %d\n", tokens[i].type);
+            printf("value: %s\n", tokens[i].value); 
+        }
+    }
+
     fclose(file);
     free(buffer);
     return 0;
