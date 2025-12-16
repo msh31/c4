@@ -31,7 +31,7 @@ Token* tokenize(const char *source, int *token_count) {
             num_str[length] = '\0';
 
             Token tmp;
-            tmp.type = NUMBER;
+            tmp.type = TOKEN_NUMBER;
             tmp.value = num_str;
 
             tokens[*token_count] = tmp;
@@ -50,14 +50,14 @@ Token* tokenize(const char *source, int *token_count) {
             int res = strcmp(chr_str, "print");
             if(res != 0) {
                 Token tmp;
-                tmp.type = IDENTIFIER;
+                tmp.type = TOKEN_IDENTIFIER;
                 tmp.value = chr_str;
 
                 tokens[*token_count] = tmp;
                 (*token_count)++;
             } else {
                 Token tmp;
-                tmp.type = PRINT;
+                tmp.type = TOKEN_PRINT;
                 tmp.value = chr_str;
 
                 tokens[*token_count] = tmp;
@@ -65,7 +65,7 @@ Token* tokenize(const char *source, int *token_count) {
             }
         } else if(source[current_position] == ';') {
             Token tmp;
-            tmp.type = SEMICOLON;
+            tmp.type = TOKEN_SEMICOLON;
             tmp.value = NULL; 
 
             tokens[*token_count] = tmp;
@@ -74,7 +74,7 @@ Token* tokenize(const char *source, int *token_count) {
         } else if (source[current_position] == '+') {
             
             Token tmp;
-            tmp.type = PLUS;
+            tmp.type = TOKEN_PLUS;
             tmp.value = NULL; 
 
             tokens[*token_count] = tmp;
@@ -83,7 +83,7 @@ Token* tokenize(const char *source, int *token_count) {
         }
         else if (source[current_position] == '-') {
             Token tmp;
-            tmp.type = MINUS;
+            tmp.type = TOKEN_MINUS;
             tmp.value = NULL; 
 
             tokens[*token_count] = tmp;
@@ -93,7 +93,7 @@ Token* tokenize(const char *source, int *token_count) {
 
         else if (source[current_position] == '*') {
             Token tmp;
-            tmp.type = MULTIPLY;
+            tmp.type = TOKEN_MULTIPLY;
             tmp.value = NULL; 
 
             tokens[*token_count] = tmp;
@@ -102,7 +102,7 @@ Token* tokenize(const char *source, int *token_count) {
         }
         else if (source[current_position] == '/') {
             Token tmp;
-            tmp.type = DIVIDE;
+            tmp.type = TOKEN_DIVIDE;
             tmp.value = NULL; 
 
             tokens[*token_count] = tmp;
@@ -111,7 +111,7 @@ Token* tokenize(const char *source, int *token_count) {
         }
         else if (source[current_position] == '(') {
             Token tmp;
-            tmp.type = LEFT_PAREN;
+            tmp.type = TOKEN_LEFT_PAREN;
             tmp.value = NULL; 
 
             tokens[*token_count] = tmp;
@@ -120,7 +120,7 @@ Token* tokenize(const char *source, int *token_count) {
         }
         else if (source[current_position] == ')') {
             Token tmp;
-            tmp.type = RIGHT_PAREN;
+            tmp.type = TOKEN_RIGHT_PAREN;
             tmp.value = NULL; 
 
             tokens[*token_count] = tmp;
@@ -129,7 +129,7 @@ Token* tokenize(const char *source, int *token_count) {
         } else if (source[current_position] == ':') {
             if(source[current_position + 1] == '=') {
                 Token tmp;
-                tmp.type = COLON_EQUALS;
+                tmp.type = TOKEN_COLON_EQUALS;
                 tmp.value = NULL; 
 
                 tokens[*token_count] = tmp;
