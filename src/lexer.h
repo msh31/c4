@@ -1,3 +1,6 @@
+#ifndef LEXER_H
+#define LEXER_H
+
 typedef enum {
     TOKEN_IDENTIFIER,
     TOKEN_NUMBER,
@@ -18,3 +21,5 @@ typedef struct {
 } Token;
 
 Token* tokenize(const char *source, int *token_count);
+
+#endif
