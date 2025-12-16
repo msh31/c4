@@ -62,6 +62,14 @@ Token* tokenize(const char *source, int *token_count) {
                 tokens[*token_count] = tmp;
                 (*token_count)++;
             }
+        } else if(source[current_position] == ';') {
+            Token tmp;
+            tmp.type = SEMICOLON;
+            tmp.value = ";";
+
+            tokens[*token_count] = tmp;
+            (*token_count)++;
+            current_position++;
         } else {
             current_position++;
         }
