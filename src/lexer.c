@@ -1,5 +1,6 @@
 #include "lexer.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
@@ -70,6 +71,74 @@ Token* tokenize(const char *source, int *token_count) {
             tokens[*token_count] = tmp;
             (*token_count)++;
             current_position++;
+        } else if (source[current_position] == '+') {
+            
+            Token tmp;
+            tmp.type = PLUS;
+            tmp.value = NULL; 
+
+            tokens[*token_count] = tmp;
+            (*token_count)++;
+            current_position++;
+        }
+        else if (source[current_position] == '-') {
+            Token tmp;
+            tmp.type = MINUS;
+            tmp.value = NULL; 
+
+            tokens[*token_count] = tmp;
+            (*token_count)++;
+            current_position++;
+        }
+
+        else if (source[current_position] == '*') {
+            Token tmp;
+            tmp.type = MULTIPLY;
+            tmp.value = NULL; 
+
+            tokens[*token_count] = tmp;
+            (*token_count)++;
+            current_position++;
+        }
+        else if (source[current_position] == '/') {
+            Token tmp;
+            tmp.type = DIVIDE;
+            tmp.value = NULL; 
+
+            tokens[*token_count] = tmp;
+            (*token_count)++;
+            current_position++;
+        }
+        else if (source[current_position] == '(') {
+            Token tmp;
+            tmp.type = LEFT_PAREN;
+            tmp.value = NULL; 
+
+            tokens[*token_count] = tmp;
+            (*token_count)++;
+            current_position++;
+        }
+        else if (source[current_position] == ')') {
+            Token tmp;
+            tmp.type = RIGHT_PAREN;
+            tmp.value = NULL; 
+
+            tokens[*token_count] = tmp;
+            (*token_count)++;
+            current_position++;
+        } else if (source[current_position] == ':') {
+            if(source[current_position + 1] == '=') {
+                Token tmp;
+                tmp.type = COLON_EQUALS;
+                tmp.value = NULL; 
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+                current_position += 2;
+            } else {
+                fprintf(stderr, "Lexical error at position %zu: unexpected character '%c' after ':'\n", current_position, source[current_position + 1]);
+                return NULL; 
+            }
         } else {
             current_position++;
         }

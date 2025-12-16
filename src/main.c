@@ -4,8 +4,6 @@
 #include "lexer.h"
 
 int main(int argc, char* argv[]) {
-    // printf("hello world!");
-
     if(argc != 2) {
         fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
         return 1;
