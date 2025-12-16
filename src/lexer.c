@@ -18,9 +18,7 @@ Token* tokenize(const char *source, int *token_count) {
         if (isspace(source[current_position])) {
             current_position++;
             continue;
-        }
-
-        if (isdigit(source[current_position])) {
+        } else if (isdigit(source[current_position])) {
             int start = current_position;
             while (isdigit(source[current_position])) {
                 current_position++;
@@ -37,9 +35,37 @@ Token* tokenize(const char *source, int *token_count) {
 
             tokens[*token_count] = tmp;
             (*token_count)++;
+        } else if(isalpha(source[current_position])) {
+            int start = current_position;
+            while (isalnum(source[current_position])) {
+                current_position++;
+            }
+            int length = current_position - start;
+
+            char* chr_str = malloc(length + 1);
+            strncpy(chr_str, &source[start], length);
+            chr_str[length] = '\0';
+
+            int res = strcmp(chr_str, "print");
+            if(res != 0) {
+                Token tmp;
+                tmp.type = IDENTIFIER;
+                tmp.value = chr_str;
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+            } else {
+                Token tmp;
+                tmp.type = PRINT;
+                tmp.value = chr_str;
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+            }
+        } else {
+            current_position++;
         }
     }
 
-    //free the memory?
     return tokens;
 }
