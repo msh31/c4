@@ -33,4 +33,10 @@ typedef struct ASTNode {
     } data;
 } ASTNode;
 
+ASTNode* create_number(int value);
+ASTNode* create_variable(char* name);
+ASTNode* create_binary_op(TokenType op, ASTNode* left, ASTNode* right);
+ASTNode* create_assignment(char* variable, ASTNode* expression);
+ASTNode* create_print(ASTNode* expression);
+
 #endif
