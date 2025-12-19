@@ -1,4 +1,6 @@
 #include "parser.h"
+#include "lexer.h"
+#include <cstdlib>
 #include <stdlib.h>
 #include <string.h>
 
@@ -74,4 +76,30 @@ int are_all_tokens_parsed(Parser* parser) {
     } else {
         return 0;
     }
+}
+
+
+Program* parse_tokens(Token* tokens, int token_count) {
+    Parser p;
+    p.current = 0;
+    p.tokens = tokens;
+    p.token_count = token_count;
+
+    Program* pg = malloc(sizeof(Program));
+    pg->statement_count = 0;
+    pg->statements = malloc(100 * sizeof(ASTNode*));
+    
+    while (!are_all_tokens_parsed(&p)) {
+        if(get_current_token(&p)->type == TOKEN_IDENTIFIER) {
+            ASTNode* stmt = parse_assignment(&p);
+            pg->statements[pg->statement_count] = stmt;
+            pg->statement_count++;
+        } else if(get_current_token(&p)->type == TOKEN_PRINT) {
+            ASTNode* stmt = parse_print(&p);
+            pg->statements[pg->statement_count] = stmt;
+            pg->statement_count++;
+        }
+    }
+
+    return pg;
 }

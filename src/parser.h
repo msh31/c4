@@ -56,4 +56,7 @@ Token* get_current_token(Parser* parser);
 Token* move_to_next_token(Parser* parser);
 int are_all_tokens_parsed(Parser* parser);
 
+ASTNode* parse_assignment(Parser* parser);
+ASTNode* parse_print(Parser* parser);
+
 #endif
