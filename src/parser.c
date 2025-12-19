@@ -1,6 +1,6 @@
 #include "parser.h"
-#include <cstdlib>
 #include <stdlib.h>
+#include <string.h>
 
 ASTNode* create_number(int value) {
     ASTNode* node = malloc(sizeof(ASTNode));
@@ -49,4 +49,29 @@ ASTNode* create_print(ASTNode* expression) {
     node->data.print_stmt.expression = expression;
 
     return node;
+}
+
+Token* get_current_token(Parser* parser) {
+    return &parser->tokens[parser->current];
+}
+
+Token* move_to_next_token(Parser* parser) {
+   if(are_all_tokens_parsed(parser)) {
+        return get_current_token(parser);
+   } else {
+        parser->current += 1;
+        return &parser->tokens[parser->current];
+   }
+}
+
+int are_all_tokens_parsed(Parser* parser) {
+    // if(memcmp(parser->current, parser->token_count, sizeof(parser->token_count))) {
+    //
+    // }
+
+    if(parser->current == parser->token_count) {
+        return 1;
+    } else {
+        return 0;
+    }
 }

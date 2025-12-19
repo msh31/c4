@@ -12,6 +12,12 @@ typedef enum {
     NODE_EXPRESSION
 } NodeType;
 
+typedef struct {
+    Token *tokens;
+    int current;
+    int token_count; 
+} Parser;
+
 typedef struct ASTNode {
     NodeType type;
     
@@ -33,10 +39,21 @@ typedef struct ASTNode {
     } data;
 } ASTNode;
 
+typedef struct {
+    ASTNode **statements;
+    int statement_count;
+} Program;
+
 ASTNode* create_number(int value);
 ASTNode* create_variable(char* name);
 ASTNode* create_binary_op(TokenType op, ASTNode* left, ASTNode* right);
 ASTNode* create_assignment(char* variable, ASTNode* expression);
 ASTNode* create_print(ASTNode* expression);
+
+Program* parse_tokens(Token* tokens, int token_count);
+
+Token* get_current_token(Parser* parser);
+Token* move_to_next_token(Parser* parser);
+int are_all_tokens_parsed(Parser* parser);
 
 #endif
