@@ -69,7 +69,7 @@ int are_all_tokens_parsed(Parser* parser) {
     //
     // }
 
-    if(parser->current == parser->token_count) {
+    if(parser->current >= parser->token_count) {
         return 1;
     } else {
         return 0;
