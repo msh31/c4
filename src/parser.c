@@ -1,6 +1,5 @@
 #include "parser.h"
 #include "lexer.h"
-#include <cstdlib>
 #include <stdlib.h>
 #include <string.h>
 
@@ -102,4 +101,63 @@ Program* parse_tokens(Token* tokens, int token_count) {
     }
 
     return pg;
+}
+
+ASTNode* parse_expression(Parser* parser) {
+    if(get_current_token(parser)->type == TOKEN_NUMBER) {
+        int value = atoi(get_current_token(parser)->value);
+        ASTNode* node = create_number(value);
+        move_to_next_token(parser);
+
+        return node;
+    } else {
+        return NULL;
+    }
+}
+
+ASTNode* parse_assignment(Parser* parser) {
+    char* variable_name = get_current_token(parser)->value;
+    move_to_next_token(parser);
+    ASTNode* expr = NULL;
+
+    if(get_current_token(parser)->type == TOKEN_COLON_EQUALS) {
+        move_to_next_token(parser);
+        expr = parse_expression(parser);
+    } else {
+        return NULL;
+    }
+
+    if(get_current_token(parser)->type == TOKEN_SEMICOLON) {
+        move_to_next_token(parser);
+    } else {
+        return NULL;
+    }
+
+    return create_assignment(variable_name, expr);
+}
+
+ASTNode* parse_print(Parser* parser) {
+    move_to_next_token(parser);
+    ASTNode* expr = NULL;
+
+    if(get_current_token(parser)->type == TOKEN_LEFT_PAREN) {
+        move_to_next_token(parser);
+        expr = parse_expression(parser);
+
+        if(get_current_token(parser)->type == TOKEN_RIGHT_PAREN) {
+            move_to_next_token(parser);
+
+            if(get_current_token(parser)->type == TOKEN_SEMICOLON) {
+                move_to_next_token(parser);
+            } else {
+                return NULL;
+            }
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+
+    return create_print(expr);
 }

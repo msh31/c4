@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "lexer.h"
+#include "parser.h"
 
 int main(int argc, char* argv[]) {
     if(argc != 2) {
@@ -35,6 +36,14 @@ int main(int argc, char* argv[]) {
             printf("type: %d\n", tokens[i].type);
             printf("value: %s\n", tokens[i].value); 
         }
+    }
+
+    Program* parsedTokens = parse_tokens(tokens, token_count);
+
+    if (parsedTokens == NULL) {
+        printf("Parsing error\n");
+    } else {
+        printf("Parsed %d statements!\n", parsedTokens->statement_count);
     }
 
     fclose(file);
