@@ -5,6 +5,19 @@
 #include "parser.h"
 #include "codegen.h"
 
+void free_tokens(Token* tokens, int token_count) {
+    if (tokens == NULL || token_count == 0) {
+        printf("No tokens were found to free!!\n");
+    } else {
+        for (int i = 0; i < token_count; i++) {
+            if(tokens[i].value != NULL) {
+                free(tokens[i].value);
+            }
+        }
+        free(tokens);
+    }
+}
+
 int cleanup(FILE* file, char* buffer) {
     fclose(file);
     int result = system("gcc output.c -o program");
@@ -60,6 +73,6 @@ int main(int argc, char* argv[]) {
     }
 
     generate_code(parsedTokens, "output.c");
-
+    free_tokens(tokens, token_count);
     return cleanup(file, buffer);
 }
