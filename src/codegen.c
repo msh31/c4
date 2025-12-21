@@ -1,4 +1,5 @@
 #include "codegen.h"
+#include "lexer.h"
 #include "parser.h"
 #include <stdio.h>
 
@@ -55,8 +56,39 @@ void generate_expression(FILE* file, ASTNode* node) {
         fprintf(file, "%d", node->data.number_value);
     } else if(node->type == NODE_VARIABLE) {
        fprintf(file, "%s", node->data.variable_name);
+    }else if(node->type == NODE_BINARY_OP) { 
+        fprintf(file, "(");
+        generate_expression(file, node->data.binary_op.left);
+        fprintf(file, " %s ", get_operator_string(node->data.binary_op.opps));
+        generate_expression(file, node->data.binary_op.right);
+
+        fprintf(file, ")");
     } else {
         fprintf(stderr, "Error: could not generate expression for type: %d\n", node->type);
         return;
+    }
+}
+
+const char* get_operator_string(TokenType op) {
+    switch (op) {
+        case TOKEN_DIVIDE:
+            return "/";
+            break;
+
+        case TOKEN_MULTIPLY:
+            return "*";
+            break;
+
+        case TOKEN_PLUS:
+            return "+";
+            break;
+
+        case TOKEN_MINUS:
+            return "-";
+            break;
+
+        default:
+            return "";
+            break;
     }
 }

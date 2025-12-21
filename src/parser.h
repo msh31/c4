@@ -58,6 +58,8 @@ int are_all_tokens_parsed(Parser* parser);
 
 ASTNode* parse_assignment(Parser* parser);
 ASTNode* parse_print(Parser* parser);
+ASTNode* parse_factor(Parser* parser);
+ASTNode* parse_term(Parser* parser);
 ASTNode* parse_expression(Parser* parser);
 
 #endif

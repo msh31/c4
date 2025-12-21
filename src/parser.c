@@ -105,7 +105,7 @@ Program* parse_tokens(Token* tokens, int token_count) {
     return pg;
 }
 
-ASTNode* parse_expression(Parser* parser) {
+ASTNode* parse_factor(Parser* parser) {
     if(get_current_token(parser)->type == TOKEN_NUMBER) {
         int value = atoi(get_current_token(parser)->value);
         ASTNode* node = create_number(value);
@@ -116,6 +116,15 @@ ASTNode* parse_expression(Parser* parser) {
         char* variable_name = get_current_token(parser)->value;
         ASTNode* node = create_variable(variable_name);
         move_to_next_token(parser);
+
+        return node;
+    } else if(get_current_token(parser)->type == TOKEN_LEFT_PAREN) {
+        move_to_next_token(parser);
+        ASTNode* node = parse_expression(parser);
+
+        if(get_current_token(parser)->type == TOKEN_RIGHT_PAREN) {
+            move_to_next_token(parser);
+        }
 
         return node;
     } else {
@@ -168,4 +177,36 @@ ASTNode* parse_print(Parser* parser) {
     }
 
     return create_print(expr);
+}
+
+ASTNode* parse_term(Parser* parser) {
+    ASTNode* left = parse_factor(parser);
+
+    while(get_current_token(parser)->type == TOKEN_MULTIPLY || get_current_token(parser)->type == TOKEN_DIVIDE) {
+        TokenType op = get_current_token(parser)->type;
+        move_to_next_token(parser);
+
+        ASTNode* right = parse_factor(parser);
+        ASTNode* result = create_binary_op(op, left, right); 
+
+        left = result;
+    }
+
+    return left;
+}
+
+ASTNode* parse_expression(Parser* parser) {
+    ASTNode* left = parse_term(parser);
+
+    while(get_current_token(parser)->type == TOKEN_PLUS || get_current_token(parser)->type == TOKEN_MINUS) {
+        TokenType op = get_current_token(parser)->type;
+        move_to_next_token(parser);
+
+        ASTNode* right = parse_term(parser);
+        ASTNode* result = create_binary_op(op, left, right); 
+
+        left = result;
+    }
+
+    return left;
 }
