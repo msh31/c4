@@ -3,6 +3,7 @@
 
 #include "lexer.h"
 #include "parser.h"
+#include "codegen.h"
 
 int main(int argc, char* argv[]) {
     if(argc != 2) {
@@ -45,6 +46,8 @@ int main(int argc, char* argv[]) {
     } else {
         printf("Parsed %d statements!\n", parsedTokens->statement_count);
     }
+
+    generate_code(parsedTokens, "output.c");
 
     fclose(file);
     free(buffer);
