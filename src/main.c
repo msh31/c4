@@ -5,6 +5,18 @@
 #include "parser.h"
 #include "codegen.h"
 
+int cleanup(FILE* file, char* buffer) {
+    fclose(file);
+    int result = system("gcc output.c -o program");
+    if (result != 0) {
+        fprintf(stderr, "Error: compilation failed\n");
+        return 1;
+    }
+    remove("output.c");
+    free(buffer);
+    return 0;
+}
+
 int main(int argc, char* argv[]) {
     if(argc != 2) {
         fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
@@ -49,9 +61,5 @@ int main(int argc, char* argv[]) {
 
     generate_code(parsedTokens, "output.c");
 
-    fclose(file);
-    system("gcc output.c -o my-cool-program"); //TODO: improve this
-    remove("output.c");
-    free(buffer);
-    return 0;
+    return cleanup(file, buffer);
 }
