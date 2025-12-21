@@ -97,6 +97,8 @@ Program* parse_tokens(Token* tokens, int token_count) {
             ASTNode* stmt = parse_print(&p);
             pg->statements[pg->statement_count] = stmt;
             pg->statement_count++;
+        } else {
+            move_to_next_token(&p);
         }
     }
 
