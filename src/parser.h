@@ -9,7 +9,7 @@ typedef enum {
     NODE_VARIABLE,
     NODE_BINARY_OP,
     NODE_ASSIGNMENT,
-    NODE_EXPRESSION
+    NODE_EXPRESSION //like print
 } NodeType;
 
 typedef struct {
