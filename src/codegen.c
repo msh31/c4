@@ -51,9 +51,12 @@ void generate_print(FILE* file, ASTNode* node) {
 }
 
 void generate_expression(FILE* file, ASTNode* node) {
-    if(node->type != NODE_NUMBER) {
-       return; 
+    if(node->type == NODE_NUMBER) {
+        fprintf(file, "%d", node->data.number_value);
+    } else if(node->type == NODE_VARIABLE) {
+       fprintf(file, "%s", node->data.variable_name);
+    } else {
+        fprintf(stderr, "Error: could not generate expression for type: %d\n", node->type);
+        return;
     }
-
-    fprintf(file, "%d", node->data.number_value);
 }
