@@ -112,6 +112,12 @@ ASTNode* parse_expression(Parser* parser) {
         move_to_next_token(parser);
 
         return node;
+    } else if(get_current_token(parser)->type == TOKEN_IDENTIFIER) {
+        char* variable_name = get_current_token(parser)->value;
+        ASTNode* node = create_variable(variable_name);
+        move_to_next_token(parser);
+
+        return node;
     } else {
         return NULL;
     }
