@@ -139,7 +139,7 @@ ASTNode* parse_assignment(Parser* parser) {
 
     if(get_current_token(parser)->type == TOKEN_COLON_EQUALS) {
         move_to_next_token(parser);
-        expr = parse_expression(parser);
+        expr = parse_comparison(parser);
     } else {
         return NULL;
     }
@@ -159,7 +159,7 @@ ASTNode* parse_print(Parser* parser) {
 
     if(get_current_token(parser)->type == TOKEN_LEFT_PAREN) {
         move_to_next_token(parser);
-        expr = parse_expression(parser);
+        expr = parse_comparison(parser);
 
         if(get_current_token(parser)->type == TOKEN_RIGHT_PAREN) {
             move_to_next_token(parser);
@@ -209,4 +209,24 @@ ASTNode* parse_expression(Parser* parser) {
     }
 
     return left;
+}
+
+ASTNode* parse_comparison(Parser* parser) {
+    ASTNode* left = parse_expression(parser);
+
+    while(get_current_token(parser)->type == TOKEN_LESS_THAN ||
+          get_current_token(parser)->type == TOKEN_GREATER_THAN ||
+          get_current_token(parser)->type == TOKEN_EQUALS ||
+          get_current_token(parser)->type == TOKEN_NOT_EQUALS ||
+          get_current_token(parser)->type == TOKEN_LESS_EQUAL ||
+          get_current_token(parser)->type == TOKEN_GREATER_EQUAL) {
+        
+        TokenType op = get_current_token(parser)->type;
+        move_to_next_token(parser);
+
+        ASTNode* right = parse_expression(parser);
+        left = create_binary_op(op, left, right);
+    }
+
+    return left; 
 }

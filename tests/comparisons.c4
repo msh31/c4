@@ -1,0 +1,12 @@
+a := 5 < 10;
+b := 10 > 5;
+c := 5 == 5;
+d := 5 != 10;
+e := 5 <= 5;
+f := 10 >= 5;
+print(a);
+print(b);
+print(c);
+print(d);
+print(e);
+print(f);

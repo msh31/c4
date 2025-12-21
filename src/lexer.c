@@ -72,7 +72,7 @@ Token* tokenize(const char *source, int *token_count) {
             (*token_count)++;
             current_position++;
         } else if (source[current_position] == '+') {
-            
+
             Token tmp;
             tmp.type = TOKEN_PLUS;
             tmp.value = NULL; 
@@ -80,8 +80,7 @@ Token* tokenize(const char *source, int *token_count) {
             tokens[*token_count] = tmp;
             (*token_count)++;
             current_position++;
-        }
-        else if (source[current_position] == '-') {
+        } else if (source[current_position] == '-') {
             Token tmp;
             tmp.type = TOKEN_MINUS;
             tmp.value = NULL; 
@@ -89,9 +88,7 @@ Token* tokenize(const char *source, int *token_count) {
             tokens[*token_count] = tmp;
             (*token_count)++;
             current_position++;
-        }
-
-        else if (source[current_position] == '*') {
+        } else if (source[current_position] == '*') {
             Token tmp;
             tmp.type = TOKEN_MULTIPLY;
             tmp.value = NULL; 
@@ -99,8 +96,7 @@ Token* tokenize(const char *source, int *token_count) {
             tokens[*token_count] = tmp;
             (*token_count)++;
             current_position++;
-        }
-        else if (source[current_position] == '/') {
+        } else if (source[current_position] == '/') {
             Token tmp;
             tmp.type = TOKEN_DIVIDE;
             tmp.value = NULL; 
@@ -108,8 +104,7 @@ Token* tokenize(const char *source, int *token_count) {
             tokens[*token_count] = tmp;
             (*token_count)++;
             current_position++;
-        }
-        else if (source[current_position] == '(') {
+        } else if (source[current_position] == '(') {
             Token tmp;
             tmp.type = TOKEN_LEFT_PAREN;
             tmp.value = NULL; 
@@ -117,8 +112,7 @@ Token* tokenize(const char *source, int *token_count) {
             tokens[*token_count] = tmp;
             (*token_count)++;
             current_position++;
-        }
-        else if (source[current_position] == ')') {
+        } else if (source[current_position] == ')') {
             Token tmp;
             tmp.type = TOKEN_RIGHT_PAREN;
             tmp.value = NULL; 
@@ -138,6 +132,68 @@ Token* tokenize(const char *source, int *token_count) {
             } else {
                 fprintf(stderr, "Lexical error at position %zu: unexpected character '%c' after ':'\n", current_position, source[current_position + 1]);
                 return NULL; 
+            }
+        } else if (source[current_position] == '=') {
+            if(source[current_position + 1] == '=') {
+                Token tmp;
+                tmp.type = TOKEN_EQUALS;
+                tmp.value = NULL; 
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+                current_position += 2;
+            } else {
+                fprintf(stderr, "Lexical error at position %zu: unexpected character '%c' after '='\n", current_position, source[current_position + 1]);
+                return NULL; 
+            }
+        } else if (source[current_position] == '!') {
+            if(source[current_position + 1] == '=') {
+                Token tmp;
+                tmp.type = TOKEN_NOT_EQUALS;
+                tmp.value = NULL; 
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+                current_position += 2;
+            } else {
+                fprintf(stderr, "Lexical error at position %zu: unexpected character '%c' after '!'\n", current_position, source[current_position + 1]);
+                return NULL; 
+            }
+        } else if (source[current_position] == '<') {
+            if(source[current_position + 1] == '=') {
+                Token tmp;
+                tmp.type = TOKEN_LESS_EQUAL;
+                tmp.value = NULL; 
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+                current_position += 2;
+            } else {
+                Token tmp;
+                tmp.type = TOKEN_LESS_THAN;
+                tmp.value = NULL; 
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+                current_position++;
+            }
+        } else if (source[current_position] == '>') {
+            if(source[current_position + 1] == '=') {
+                Token tmp;
+                tmp.type = TOKEN_GREATER_EQUAL;
+                tmp.value = NULL; 
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+                current_position += 2;
+            } else {
+                Token tmp;
+                tmp.type = TOKEN_GREATER_THAN;
+                tmp.value = NULL; 
+
+                tokens[*token_count] = tmp;
+                (*token_count)++;
+                current_position++;
             }
         } else {
             current_position++;

@@ -61,5 +61,6 @@ ASTNode* parse_print(Parser* parser);
 ASTNode* parse_factor(Parser* parser);
 ASTNode* parse_term(Parser* parser);
 ASTNode* parse_expression(Parser* parser);
+ASTNode* parse_comparison(Parser* parser);
 
 #endif

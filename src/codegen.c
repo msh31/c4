@@ -87,6 +87,30 @@ const char* get_operator_string(TokenType op) {
             return "-";
             break;
 
+        case TOKEN_LESS_THAN:
+            return "<";
+            break;
+
+        case TOKEN_GREATER_THAN:
+            return ">";
+            break;
+
+        case TOKEN_EQUALS:
+            return "==";
+            break;
+
+        case TOKEN_NOT_EQUALS:
+            return "!=";
+            break;
+
+        case TOKEN_LESS_EQUAL:
+            return "<=";
+            break;
+
+        case TOKEN_GREATER_EQUAL:
+            return ">=";
+            break;
+
         default:
             return "";
             break;

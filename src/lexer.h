@@ -13,6 +13,12 @@ typedef enum {
     TOKEN_LEFT_PAREN,
     TOKEN_RIGHT_PAREN,
     TOKEN_PRINT,
+    TOKEN_LESS_THAN,
+    TOKEN_GREATER_THAN,
+    TOKEN_EQUALS,
+    TOKEN_NOT_EQUALS,
+    TOKEN_LESS_EQUAL,
+    TOKEN_GREATER_EQUAL,
 } TokenType;
 
 typedef struct {
