@@ -50,6 +50,8 @@ int main(int argc, char* argv[]) {
     generate_code(parsedTokens, "output.c");
 
     fclose(file);
+    system("gcc output.c -o my-cool-program"); //TODO: improve this
+    remove("output.c");
     free(buffer);
     return 0;
 }
