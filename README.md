@@ -22,11 +22,11 @@ print(result);
 
 Generates valid C code, compiles, and runs.
 
-##What's Missing
-	∙	Control flow (if/else, while loops)
-	∙	Functions
-	∙	Types beyond integers
-	∙	Strings
+**What's Missing** \
+- 	Control flow (if/else, while loops)
+- Functions
+- Types beyond integers
+- Strings
 
 ## Build and run
 ```bash
