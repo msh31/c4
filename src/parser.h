@@ -9,7 +9,8 @@ typedef enum {
     NODE_VARIABLE,
     NODE_BINARY_OP,
     NODE_ASSIGNMENT,
-    NODE_EXPRESSION //like print
+    NODE_EXPRESSION,
+    NODE_IF,
 } NodeType;
 
 typedef struct {
@@ -36,6 +37,11 @@ typedef struct ASTNode {
         struct {
             struct ASTNode *expression;
         } print_stmt;
+        struct {
+            struct ASTNode *condition;
+            struct ASTNode **body;
+            int body_count;
+        } if_stmt;
     } data;
 } ASTNode;
 
@@ -49,6 +55,7 @@ ASTNode* create_variable(char* name);
 ASTNode* create_binary_op(TokenType op, ASTNode* left, ASTNode* right);
 ASTNode* create_assignment(char* variable, ASTNode* expression);
 ASTNode* create_print(ASTNode* expression);
+ASTNode* create_if(ASTNode* condition, ASTNode** body, int body_count);
 
 Program* parse_tokens(Token* tokens, int token_count);
 
@@ -62,5 +69,6 @@ ASTNode* parse_factor(Parser* parser);
 ASTNode* parse_term(Parser* parser);
 ASTNode* parse_expression(Parser* parser);
 ASTNode* parse_comparison(Parser* parser);
+ASTNode* parse_if(Parser* parser);
 
 #endif

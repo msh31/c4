@@ -22,6 +22,8 @@ void generate_code(Program* program, const char* output_filename) {
             generate_assignment(file, stmt);
         } else if (stmt->type == NODE_EXPRESSION) {
             generate_print(file, stmt); //print is the only expression we support rn
+        } else if (stmt->type == NODE_IF) {
+            generate_if(file, stmt);
         }
     }
 
@@ -115,4 +117,26 @@ const char* get_operator_string(TokenType op) {
             return "";
             break;
     }
+}
+
+void generate_if(FILE* file, ASTNode* node) {
+    fprintf(file, "if ("); 
+    
+    ASTNode* expr = node->data.if_stmt.condition;
+    generate_expression(file, expr);
+    fprintf(file, ") {\n");
+
+    for(int i = 0; i < node->data.if_stmt.body_count; i++) {
+        ASTNode* stmt = node->data.if_stmt.body[i];
+
+        if(stmt->type == NODE_ASSIGNMENT) {
+            generate_assignment(file, stmt);
+        } else if(stmt->type == NODE_EXPRESSION) {
+            generate_print(file, stmt);
+        } else if(stmt->type == NODE_IF) {
+            generate_if(file, stmt);
+        }
+    }
+
+    fprintf(file, "}\n");
 }

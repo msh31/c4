@@ -46,23 +46,24 @@ Token* tokenize(const char *source, int *token_count) {
             char* chr_str = malloc(length + 1);
             strncpy(chr_str, &source[start], length);
             chr_str[length] = '\0';
-
-            int res = strcmp(chr_str, "print");
-            if(res != 0) {
-                Token tmp;
-                tmp.type = TOKEN_IDENTIFIER;
-                tmp.value = chr_str;
-
-                tokens[*token_count] = tmp;
-                (*token_count)++;
-            } else {
-                Token tmp;
+            
+            Token tmp;
+            if (strcmp(chr_str, "print") == 0) {
                 tmp.type = TOKEN_PRINT;
-                tmp.value = chr_str;
-
-                tokens[*token_count] = tmp;
-                (*token_count)++;
+            } else if (strcmp(chr_str, "if") == 0) {
+                tmp.type = TOKEN_IF;
+            } else if (strcmp(chr_str, "then") == 0) {
+                tmp.type = TOKEN_THEN;
+            } else if (strcmp(chr_str, "end") == 0) {
+                tmp.type = TOKEN_END;
+            } else {
+                tmp.type = TOKEN_IDENTIFIER;
             }
+
+            tmp.value = chr_str;
+
+            tokens[*token_count] = tmp;
+            (*token_count)++;
         } else if(source[current_position] == ';') {
             Token tmp;
             tmp.type = TOKEN_SEMICOLON;

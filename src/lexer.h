@@ -19,6 +19,9 @@ typedef enum {
     TOKEN_NOT_EQUALS,
     TOKEN_LESS_EQUAL,
     TOKEN_GREATER_EQUAL,
+    TOKEN_IF,
+    TOKEN_THEN,
+    TOKEN_END,
 } TokenType;
 
 typedef struct {

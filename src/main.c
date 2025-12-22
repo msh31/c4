@@ -42,15 +42,25 @@ void free_ast_node(ASTNode* node) {
         case NODE_EXPRESSION:
             free_ast_node(node->data.print_stmt.expression);
             break;
+
+        case NODE_IF:
+            free_ast_node(node->data.if_stmt.condition);
+
+            for(int i = 0; i < node->data.if_stmt.body_count; i++) {
+                free_ast_node(node->data.if_stmt.body[i]);
+            }
+
+            free(node->data.if_stmt.body);
+            break;
     }
 
     free(node);
 }
 
 void free_program(Program* program) {
-   for(int i = 0; i < program->statement_count; i++) {
+    for(int i = 0; i < program->statement_count; i++) {
         free_ast_node(program->statements[i]);
-   } 
+    } 
 
     free(program->statements);
     free(program);

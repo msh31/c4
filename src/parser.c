@@ -87,7 +87,7 @@ Program* parse_tokens(Token* tokens, int token_count) {
     Program* pg = malloc(sizeof(Program));
     pg->statement_count = 0;
     pg->statements = malloc(100 * sizeof(ASTNode*));
-    
+
     while (!are_all_tokens_parsed(&p)) {
         if(get_current_token(&p)->type == TOKEN_IDENTIFIER) {
             ASTNode* stmt = parse_assignment(&p);
@@ -97,7 +97,11 @@ Program* parse_tokens(Token* tokens, int token_count) {
             ASTNode* stmt = parse_print(&p);
             pg->statements[pg->statement_count] = stmt;
             pg->statement_count++;
-        } else {
+        } else if(get_current_token(&p)->type == TOKEN_IF) {
+            ASTNode* stmt = parse_if(&p);
+            pg->statements[pg->statement_count] = stmt;
+            pg->statement_count++;
+        }else {
             move_to_next_token(&p);
         }
     }
@@ -229,4 +233,61 @@ ASTNode* parse_comparison(Parser* parser) {
     }
 
     return left; 
+}
+
+ASTNode* parse_if(Parser* parser) {
+    if(get_current_token(parser)->type != TOKEN_IF) {
+        return NULL;
+    }
+    move_to_next_token(parser);
+    
+    if(get_current_token(parser)->type != TOKEN_LEFT_PAREN) {
+        return NULL;
+    }
+    move_to_next_token(parser);
+    ASTNode* condition = parse_comparison(parser);
+    
+    if(get_current_token(parser)->type != TOKEN_RIGHT_PAREN) {
+        return NULL;
+    }
+    move_to_next_token(parser);
+
+    if(get_current_token(parser)->type != TOKEN_THEN) {
+        return NULL;
+    }
+    move_to_next_token(parser);
+    ASTNode** body = malloc(100 * sizeof(ASTNode*));
+    int body_count = 0;
+
+    while (get_current_token(parser)->type != TOKEN_END) {
+        if(get_current_token(parser)->type == TOKEN_IDENTIFIER) {
+            ASTNode* stmt = parse_assignment(parser);
+            body[body_count] = stmt;
+            body_count++;
+        } else if(get_current_token(parser)->type == TOKEN_PRINT) {
+            ASTNode* stmt = parse_print(parser);
+            body[body_count] = stmt;
+            body_count++;
+        } else if(get_current_token(parser)->type == TOKEN_IF) {
+            ASTNode* stmt = parse_if(parser);
+            body[body_count] = stmt;
+            body_count++;
+        } else {
+            move_to_next_token(parser);
+        }
+    }
+
+    move_to_next_token(parser);
+    return create_if(condition, body, body_count);
+}
+
+ASTNode* create_if(ASTNode* condition, ASTNode** body, int body_count) {
+    ASTNode* node = malloc(sizeof(ASTNode));
+
+    node->type = NODE_IF;
+    node->data.if_stmt.condition = condition;
+    node->data.if_stmt.body = body;
+    node->data.if_stmt.body_count = body_count;
+
+    return node;
 }
